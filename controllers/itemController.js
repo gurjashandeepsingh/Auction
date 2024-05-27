@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Item from "../models/item.js";
 
 export const getAllItems = async (req, res) => {
@@ -63,5 +64,45 @@ export const deleteItem = async (req, res) => {
     res.json({ message: "Item deleted" });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+// export const searchItems = async (req, res) => {
+//   const searchString = req.body;
+//   const searchQuery = {
+//     [Op.or]: [
+//       { name: { [Op.like]: `%${searchString}%` } },
+//       { description: { [Op.like]: `%${searchString}%` } },
+//     ],
+//   };
+//   try {
+//     const items = await Item.findAll({ where: searchQuery });
+//     if (items.length === 0) {
+//       return "Unable to find anything related to your search";
+//     }
+//     return items;
+//   } catch (error) {
+//     console.error("Error searching for items:", error);
+//     throw error;
+//   }
+// };
+
+export const searchItems = async (req, res) => {
+  try {
+    const { searchString } = req.body;
+    console.log(searchString);
+    const items = await Item.findAll({
+      where: {
+        [Op.or]: [
+          { name: { [Op.like]: `%${searchString}%` } },
+          { description: { [Op.like]: `%${searchString}%` } },
+        ],
+      },
+    });
+    console.log(items);
+    res.json(items);
+  } catch (error) {
+    console.error("Error searching items:", error);
+    throw error;
   }
 };

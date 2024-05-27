@@ -1,6 +1,6 @@
 import Bid from "../models/bid.js";
 import Item from "../models/item.js";
-import io from "../app.js";
+import { io } from "../app.js";
 
 export const placeBid = async (req, res) => {
   const { bid_amount } = req.body;

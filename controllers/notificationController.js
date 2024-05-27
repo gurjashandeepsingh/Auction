@@ -1,4 +1,4 @@
-import Notification from "../models/index.js";
+import Notification from "../models/notification.js";
 
 export const getNotifications = async (req, res) => {
   try {
@@ -7,6 +7,7 @@ export const getNotifications = async (req, res) => {
     });
     res.json(notifications);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error.message });
   }
 };

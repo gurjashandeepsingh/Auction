@@ -16,7 +16,6 @@ const server = createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
-
 app.use("/users", authRoutes);
 app.use("/items", itemRoutes);
 app.use("/bids", bidRoutes);
@@ -25,11 +24,14 @@ app.use("/notifications", notificationRoutes);
 const PORT = process.env.PORT || 3000;
 
 sequelize.sync({ force: false }).then(() => {
-  server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  if (process.env.NODE_ENV !== "test") {
+    server.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  }
 });
 
+// Socket.IO setup
 io.on("connection", (socket) => {
   console.log("A user connected");
 
@@ -38,4 +40,5 @@ io.on("connection", (socket) => {
   });
 });
 
-export default io;
+// Export the server and app for testing
+export { app, server, io };

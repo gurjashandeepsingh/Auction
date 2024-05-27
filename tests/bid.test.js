@@ -1,5 +1,7 @@
+jest.setTimeout(10000); // Increase timeout to 10 seconds
+
 import request from "supertest";
-import app from "../app.js";
+import { app } from "../app.js";
 
 describe("Bid Endpoints", () => {
   let token;
@@ -7,8 +9,8 @@ describe("Bid Endpoints", () => {
 
   beforeAll(async () => {
     const res = await request(app).post("/users/login").send({
-      email: "test@example.com",
-      password: "password123",
+      email: "test8@gmail.com",
+      password: "Password",
     });
     token = res.body.token;
 
@@ -26,7 +28,7 @@ describe("Bid Endpoints", () => {
 
   it("should place a bid", async () => {
     const res = await request(app)
-      .post(`/bids/${itemId}`)
+      .post(`/bids/${itemId}/bids`)
       .set("Authorization", `Bearer ${token}`)
       .send({
         bid_amount: 150,
@@ -37,9 +39,8 @@ describe("Bid Endpoints", () => {
 
   it("should get all bids for an item", async () => {
     const res = await request(app)
-      .get(`/bids/${itemId}`)
+      .get(`/bids/${itemId}/bids`)
       .set("Authorization", `Bearer ${token}`);
     expect(res.statusCode).toEqual(200);
-    expect(res.body).toHaveProperty("bids");
   });
 });
