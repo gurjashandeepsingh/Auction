@@ -22,8 +22,8 @@ class RequestLimit extends Model {
       {
         sequelize,
         modelName: "RequestLimit",
-        tableName: "RequestLimits", // Make sure to match the actual table name
-        timestamps: false, // Disable timestamps if not needed
+        tableName: "RequestLimits",
+        timestamps: false,
       }
     );
   }
